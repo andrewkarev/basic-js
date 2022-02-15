@@ -1,25 +1,19 @@
-const { NotImplementedError } = require('../extensions/index.js');
-
 const MODERN_ACTIVITY = 15;
 const HALF_LIFE_PERIOD = 5730;
+const NATURAL_LOGARITHM_OF_2 = 0.693;
+const RADIOACTIVE_DECAY_CONSTANT = NATURAL_LOGARITHM_OF_2 / HALF_LIFE_PERIOD;
 
-/**
- * Determine the age of archeological find by using
- * given MODERN_ACTIVITY and HALF_LIFE_PERIOD values
- * 
- * @param {String} sampleActivity string representation of current activity 
- * @return {Number | Boolean} calculated age in years or false
- * in case of incorrect sampleActivity
- *
- * @example
- * 
- * dateSample('1') => 22387
- * dateSample('WOOT!') => false
- *
- */
-function dateSample(/* sampleActivity */) {
-  throw new NotImplementedError('Not implemented');
-  // remove line with error and write your code here
+
+function dateSample(sampleActivity) {
+  if (typeof sampleActivity !== 'string') return false;
+
+  const parsedSampleActivity = parseFloat(sampleActivity);
+
+  if (isNaN(parsedSampleActivity) || parsedSampleActivity > 15 || parsedSampleActivity <= 0) return false;
+
+  const sampleApproximateAge = Math.ceil((Math.log(MODERN_ACTIVITY / parsedSampleActivity)) / RADIOACTIVE_DECAY_CONSTANT);
+
+  return sampleApproximateAge;
 }
 
 module.exports = {
